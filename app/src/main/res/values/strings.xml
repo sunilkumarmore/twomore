@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">twomore</string>
+    <string name="action_settings">Settings</string>
+    <string name="loginlater2Value">Login Later</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>

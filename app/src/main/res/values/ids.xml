@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="loginlater2" type="id">Login Later</item>
+    <item name="mainscreenlinerlayout" type="id">Main Screen Linear Layout</item>
+    <item name="LayoutForAdapter" type="id">LayoutForAdapter</item>
+</resources>
