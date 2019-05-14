@@ -7,12 +7,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements VideoListFragement.OnListFragmentInteractionListener,AddNewVideoFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements VideoListFragement.OnListFragmentInteractionListener,AddNewVideoFragment.AddStoryMethod,ShowStoryFragement.OnFragmentInteractionListener{
 
     ArrayList<VideoClass> expensesSoFar = new ArrayList<>();
 
@@ -32,18 +32,18 @@ public class MainActivity extends AppCompatActivity implements VideoListFragemen
             }
         });*/
 
-        Button loginLater = (Button)findViewById(R.id.loginlater2);
+ /*       Button loginLater = (Button)findViewById(R.id.loginlater2);
         loginLater.setOnClickListener(new View.OnClickListener(){
 
             @Override
-            public void onClick(View view) {
+            public void onClick(View view) {*/
                 FragmentManager man = getSupportFragmentManager();
                man.beginTransaction()
                         .add(R.id.container2,new VideoListFragement(),"second tag")
                         .addToBackStack(null)
                         .commit();
-            }
-        });
+            //}
+      /*  });*/
     }
 
     @Override
@@ -79,27 +79,53 @@ public class MainActivity extends AppCompatActivity implements VideoListFragemen
     }
 
     @Override
-    public void displayListViewMethod(ListView Lv) {
-        VideoClass hh = new VideoClass("ssda","asdsad");
-        expensesSoFar.add(hh);
+    public void displayListViewMethod(ListView lv) {
+   /*     VideoClass hh = new VideoClass("ssda","asdsad");
+        expensesSoFar.add(hh);*/
         AdapterClassForVideos cc = new AdapterClassForVideos(this,R.layout.layoutforvideoadapter,expensesSoFar);
 
-   /*     if(lv!=null)
+        if(lv!=null)
         {
             lv.setAdapter(cc);
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                  //  FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-                    Intent in = new Intent(MainActivity.this, Showexpense22.class);
+            /*      Intent in = new Intent(MainActivity.this, Showexpense22.class);
                     in.putExtra("Expense", expensesSoFar.get(position));
-                    startActivity(in);
+                    startActivity(in);*/
+
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelable("currentStory", expensesSoFar.get(position));
+// set Fragmentclass Arguments
+                    ShowStoryFragement fragobj = new ShowStoryFragement();
+                    fragobj.setArguments(bundle);
+
+
+
+                    FragmentManager man = getSupportFragmentManager();
+                    man.beginTransaction()
+                            .replace(R.id.container2,fragobj,"currentStory")
+                            .addToBackStack(null)
+                            .commit();
+
 
                 }
             });
-        }*/
+        }
+    }
+
+    @Override
+    public void AddNewStoryMethod(VideoClass videoClass) {
+        expensesSoFar.add(videoClass);
+        FragmentManager man = getSupportFragmentManager();
+        man.beginTransaction()
+                .replace(R.id.container2,new VideoListFragement(),"firstTag")
+                .addToBackStack(null)
+                .commit();
+
     }
 
     @Override

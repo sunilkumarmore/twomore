@@ -14,6 +14,9 @@ public class VideoClass implements Parcelable{
         this.name = name;
         this.description = description;
     }
+    public VideoClass() {
+
+    }
 
     @Override
     public String toString() {
