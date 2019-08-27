@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.TextView;
 
 
 /**
@@ -24,8 +25,7 @@ import android.widget.ListView;
 public class VideoListFragement extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_ACTISELECTED = "activitySelected";
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -49,8 +49,7 @@ public class VideoListFragement extends Fragment {
     public static VideoListFragement newInstance(String param1, String param2) {
         VideoListFragement fragment = new VideoListFragement();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_ACTISELECTED, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,12 +57,6 @@ public class VideoListFragement extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-
 
     }
 
@@ -71,29 +64,21 @@ public class VideoListFragement extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
-        // ImageButton x = (ImageButton) getView().findViewById(R.id.addImagebutton);
-
-
-
-     /*               AddExpenseFragment fragment2 = new AddExpenseFragment();
-                    FragmentManager fragmentManager = getFragmentManager();
-                    FragmentTransaction fragmentTransaction =        fragmentManager.beginTransaction();
-                    fragmentTransaction.replace(R.id.container2, fragment2).commit();*/
-
-        //  new MainActivity().callTheFragment();
-        // getFragmentManager().beginTransaction().add(R.id.container2,new AddExpenseFragment(), "sd");
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_ACTISELECTED);
+        }
         ImageButton x = (ImageButton) getActivity().findViewById(R.id.addImagebutton);
+        TextView header = (TextView) getActivity().findViewById(R.id.textView);
+        header.setText(mParam1);
 
         if (x != null) {
             x.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.d("demo", "clicked");
-                  //  AddNewVideoFragment fragment2 = new AddNewVideoFragment();
-                    //FragmentManager fragmentManager = getFragmentManager();
-                    //FragmentTransaction fragmentTransaction =        fragmentManager.beginTransaction();
-                    mListener.AddFragement(R.id.container2);
-                    //fragmentTransaction.replace(R.id.container2, fragment2).commit();
+
+                    mListener.AddFragement(R.id.container2,mParam1);
+
                 }
             });
             ;
@@ -105,16 +90,14 @@ public class VideoListFragement extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-    /*    View view= inflater.inflate(R.layout.fragment_expense, container, false);
-        ListView lv = view.findViewById(R.id.currentExpenseslist);
-        mListener.displayListViewMethod(lv);
-        return view;*/
 
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_ACTISELECTED);
+        }
 
         View view= inflater.inflate(R.layout.fragment_video_list_fragement, container, false);
         ListView lv = view.findViewById(R.id.currentExpenseslist);
-        mListener.displayListViewMethod(lv);
+        mListener.displayListViewMethod(lv,mParam1);
         return view;
 
     }
@@ -133,7 +116,7 @@ public class VideoListFragement extends Fragment {
             mListener = (OnListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnNextButtonClicked");
         }
     }
 
@@ -155,7 +138,7 @@ public class VideoListFragement extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void AddFragement(int ss);
-        void displayListViewMethod(ListView Lv);
+        void AddFragement(int ss,String buttonClicked);
+        void displayListViewMethod(ListView Lv,String buttonClicked);
     }
 }

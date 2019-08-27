@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "371075903817",
+    "firebase_url": "https://twomore-e8236.firebaseio.com",
+    "project_id": "twomore-e8236",
+    "storage_bucket": "twomore-e8236.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:371075903817:android:1f2229f7031e41ba",
+        "android_client_info": {
+          "package_name": "com.example.sunilm.twomore"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "371075903817-45kcui0oumcebb2ume3jmq8s7nk5ge4s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.sunilm.twomore",
+            "certificate_hash": "c5ceb6397221c8edf6a0b56b908aa1f2f7149380"
+          }
+        },
+        {
+          "client_id": "371075903817-t6irogc2igbdkm7l9v7aa51bkrk2sn19.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD-_aVgGSXeJ8H8B1aZQOtlx0l7--p5ga0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "371075903817-t6irogc2igbdkm7l9v7aa51bkrk2sn19.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

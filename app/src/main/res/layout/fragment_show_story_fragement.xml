@@ -1,4 +1,5 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,18 +8,53 @@
     <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="1">
 
-        <TextView
+   <!--     <TextView
             android:id="@+id/showstoryname"
             android:layout_width="match_parent"
-            android:layout_height="30dp" />
+            android:layout_height="30dp" />-->
 
         <TextView
             android:id="@+id/showstoryDescription"
             android:layout_width="match_parent"
             android:layout_height="30dp" />
+
+        <ImageView
+            android:id="@+id/storyPicture"
+            android:layout_width="match_parent"
+            android:layout_height="424dp"
+            app:srcCompat="@mipmap/ic_launcher_round" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_weight="0.79">
+
+            <Button
+                android:id="@+id/button_previous"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/button_previous" />
+
+            <Button
+                android:id="@+id/button_share"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/button_share" />
+
+            <Button
+                android:id="@+id/button_nextstory"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/button_nextstory" />
+        </LinearLayout>
     </LinearLayout>
 
 </FrameLayout>

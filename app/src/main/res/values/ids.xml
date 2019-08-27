@@ -3,4 +3,8 @@
     <item name="loginlater2" type="id">Login Later</item>
     <item name="mainscreenlinerlayout" type="id">Main Screen Linear Layout</item>
     <item name="LayoutForAdapter" type="id">LayoutForAdapter</item>
+    <item name="storyPicture" type="id">storyPicture</item>
+    <item name="button_previous" type="id">Previous</item>
+    <item name="button_nextstory" type="id">Next</item>
+    <item name="button_share" type="id">Share</item>
 </resources>

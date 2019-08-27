@@ -8,4 +8,16 @@
     <string name="storyName">Story Name</string>
     <string name="addNewStorytoList">Add Story</string>
     <string name="storyDescription">Story Description</string>
+    <string name="Storiesbutton">Stories</string>
+    <string name="videosbutton">Videos</string>
+    <string name="gamesButton">Games</string>
+    <string name="title_activity_video_player">videosActivity</string>
+    <string name="title_activity_video_list_demo">VideoListDemoActivity</string>
+    <string name="title_activity_youtube_video_list">YoutubeVideoList</string>
+    <string name="title_activity_display_story_activitybackup">DisplayStoryActivitybackup</string>
+    <string name="button_previous">Previous</string>
+    <string name="button_nextstory">Next</string>
+    <string name="button_share">Share</string>
+
+
 </resources>

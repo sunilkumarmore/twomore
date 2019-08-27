@@ -1,26 +1,41 @@
 package com.example.sunilm.twomore;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 /**
- * Created by sunilm on 5/3/2019.
+ * Created by sunilm on 5/14/2019.
  */
 
-public class VideoClass implements Parcelable{
+
+public class StoriesClass implements Parcelable {
     String name;
     String description;
     String  URL;
-    Bitmap bitmap;
 
-    public VideoClass(String name, String description, String URL,Bitmap bitmap) {
-        this.name = name;
-        this.description = description;
-        this.URL = URL;
+    public Drawable getBitmap() {
+        return bitmap;
+    }
+
+    public void setBitmap(Drawable bitmap) {
         this.bitmap = bitmap;
     }
-    public VideoClass() {
+
+    Drawable bitmap;
+
+
+/*    nn.add(BitmapFactory.decodeResource(this.getResources(), R.mipmap.image1));
+        nn.add(BitmapFactory.decodeResource(this.getResources(), R.mipmap.image2));
+        nn.add(BitmapFactory.decodeResource(this.getResources(), R.mipmap.image3));
+        nn.add(BitmapFactory.decodeResource(this.getResources(), R.mipmap.image4));
+        nn.add(BitmapFactory.decodeResource(this.getResources(), R.mipmap.image5));*/
+    public StoriesClass(String name, String description) {
+        this.name = name;
+        this.description = description;
+    }
+    public StoriesClass() {
 
     }
 
@@ -60,25 +75,25 @@ public class VideoClass implements Parcelable{
         dest.writeString(this.name);
         dest.writeString(this.description);
         dest.writeString(this.URL);
-        dest.writeParcelable(this.bitmap, flags);
+        dest.writeParcelable((Parcelable) this.bitmap, flags);
     }
 
-    protected VideoClass(Parcel in) {
+    protected StoriesClass(Parcel in) {
         this.name = in.readString();
         this.description = in.readString();
         this.URL = in.readString();
         this.bitmap = in.readParcelable(Bitmap.class.getClassLoader());
     }
 
-    public static final Creator<VideoClass> CREATOR = new Creator<VideoClass>() {
+    public static final Creator<StoriesClass> CREATOR = new Creator<StoriesClass>() {
         @Override
-        public VideoClass createFromParcel(Parcel source) {
-            return new VideoClass(source);
+        public StoriesClass createFromParcel(Parcel source) {
+            return new StoriesClass(source);
         }
 
         @Override
-        public VideoClass[] newArray(int size) {
-            return new VideoClass[size];
+        public StoriesClass[] newArray(int size) {
+            return new StoriesClass[size];
         }
     };
 }

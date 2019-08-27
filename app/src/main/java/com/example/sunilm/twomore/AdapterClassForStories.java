@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -18,13 +17,13 @@ import java.util.ArrayList;
  */
 
 
-public class AdapterClassForVideos extends ArrayAdapter<VideoClass> {
+public class AdapterClassForStories extends ArrayAdapter<StoriesClass> {
 
     Context context;
     int resource;
-    ArrayList<VideoClass> listOfExpenses;
+    ArrayList<StoriesClass> listOfExpenses;
 
-    public AdapterClassForVideos(@NonNull Context context, @LayoutRes int resource, @NonNull ArrayList<VideoClass> objects) {
+    public AdapterClassForStories(@NonNull Context context, @LayoutRes int resource, @NonNull ArrayList<StoriesClass> objects) {
         super(context, resource, objects);
         this.resource = resource;
         this.context = context;
@@ -35,7 +34,7 @@ public class AdapterClassForVideos extends ArrayAdapter<VideoClass> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        VideoClass musicResults = listOfExpenses.get(position);
+        StoriesClass musicResults = listOfExpenses.get(position);
         ViewGroup123 nn = null;
 
         if(convertView==null)
@@ -45,9 +44,6 @@ public class AdapterClassForVideos extends ArrayAdapter<VideoClass> {
             convertView = inflater.inflate(resource, parent, false);
             nn.tv1= convertView.findViewById(R.id.textView5);
             nn.tv2= convertView.findViewById(R.id.textView7);
-            nn.tv2= convertView.findViewById(R.id.textView7);
-            nn.iv1 = convertView.findViewById(R.id.imageView2);
-
             convertView.setTag(nn);
         }
 
@@ -63,7 +59,6 @@ public class AdapterClassForVideos extends ArrayAdapter<VideoClass> {
     {
         TextView tv1;
         TextView tv2;
-        ImageView iv1;
 
     }
 }

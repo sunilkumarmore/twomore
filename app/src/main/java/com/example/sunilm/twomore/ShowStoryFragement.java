@@ -1,24 +1,38 @@
 package com.example.sunilm.twomore;
 
 import android.content.Context;
-import android.net.Uri;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link ShowStoryFragement.OnFragmentInteractionListener} interface
+ * {@link OnNextButtonClicked} interface
  * to handle interaction events.
  * Use the {@link ShowStoryFragement#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ShowStoryFragement extends Fragment {
+public class ShowStoryFragement extends  Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -30,8 +44,16 @@ public class ShowStoryFragement extends Fragment {
     private View view;
     private TextView showStoryNmae;
     private TextView showSToryDescription;
+    private ImageView storyImage;
+    private StorageReference mStorageRef;
+    private   FirebaseDatabase mFirebaseDatabase;
+    private DatabaseReference mdataBaseReference;
+    private StoriesClass currentStory;
+    private String imageName;
+    private String currentStoryName;
+  //  private Button nextButton;
 
-    private OnFragmentInteractionListener mListener;
+    private OnNextButtonClicked mListener;
 
     public ShowStoryFragement() {
         // Required empty public constructor
@@ -62,6 +84,7 @@ public class ShowStoryFragement extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mStorageRef = FirebaseStorage.getInstance().getReference();
     }
 
     @Override
@@ -69,17 +92,83 @@ public class ShowStoryFragement extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view = inflater.inflate(R.layout.fragment_show_story_fragement, container, false);
-        showStoryNmae = view.findViewById(R.id.showstoryname);
-        VideoClass currentVideo = getArguments().getParcelable("currentStory");
-        if ( showStoryNmae!=null)
-        {
-            showStoryNmae.setText(currentVideo.getName());
-        }
-        showSToryDescription = view.findViewById(R.id.showstoryDescription);
+      //  showStoryNmae = view.findViewById(R.id.showstoryname);
+        mFirebaseDatabase  = FirebaseDatabase.getInstance();
+        //mdataBaseReference= mFirebaseDatabase.getReference().child("Stories");
+        Button nextButton = (Button)view.findViewById(R.id.button_nextstory);
+        nextButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListener.OnNextButtonClicked("next",currentStory);
+            }
+        });
 
-        if ( showSToryDescription!=null)
+        if(getArguments().getParcelable("currentStory")!=null) {
+             currentStory = getArguments().getParcelable("currentStory");
+           // if (showStoryNmae != null) {
+              //  showStoryNmae.setText(currentStory.getName());
+            currentStoryName = currentStory.getName();
+                getActivity().setTitle(currentStory.getName());
+                mdataBaseReference= mFirebaseDatabase.getReference().child("Stories").child(currentStory.getName()).child("imageName");
+                mdataBaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                         imageName = dataSnapshot.getValue(String.class);
+                        StorageReference islandRef = mStorageRef.child("images/"+imageName+".jpg");
+
+                        final long ONE_MEGABYTE = 2024 * 2024;
+                        islandRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                            @Override
+                            public void onSuccess(byte[] bytes) {
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                                storyImage.setImageBitmap(bitmap);
+                                // Data for "images/island.jpg" is returns, use this as needed
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception exception) {
+
+                            }
+                        });
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+           // }
+
+
+            showSToryDescription = view.findViewById(R.id.showstoryDescription);
+
+            if (showSToryDescription != null) {
+                showSToryDescription.setText(currentStory.getDescription());
+            }
+            storyImage= view.findViewById(R.id.storyPicture);
+            if(storyImage!=null)
+            {
+           /*     Drawable bitmap = currentStory.getBitmap();
+                storyImage.setImageDrawable(bitmap);*/
+
+
+            }
+
+        }
+        else if (getArguments().getParcelable("currentVideo")!=null)
         {
-            showSToryDescription.setText(currentVideo.getDescription());
+
+         /*   VideoClass currentVideo = getArguments().getParcelable("currentVideo");
+            if (showStoryNmae != null) {
+                showStoryNmae.setText(currentVideo.getName());
+            }
+            showSToryDescription = view.findViewById(R.id.showstoryDescription);
+
+            if (showSToryDescription != null) {
+                showSToryDescription.setText(currentVideo.getDescription());
+            }*/
         }
         return view;
     }
@@ -114,14 +203,16 @@ public class ShowStoryFragement extends Fragment {
     }*/
 
 
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+        if (context instanceof ShowStoryFragement.OnNextButtonClicked) {
+            mListener = (ShowStoryFragement.OnNextButtonClicked) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnNextButtonClicked");
         }
     }
 
@@ -141,8 +232,8 @@ public class ShowStoryFragement extends Fragment {
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface OnNextButtonClicked {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void OnNextButtonClicked(String buttonClicked,StoriesClass currentStor);
     }
 }

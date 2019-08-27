@@ -1,6 +1,7 @@
 package com.example.sunilm.twomore;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -23,20 +25,27 @@ import android.widget.TextView;
 public class AddNewVideoFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
+    private static final String ARG_ACTISELECTED = "activitySelected";
+    private static final int  PICK_IMAGE_REQUEST = 234 ;
+
+    // TODO: Rename and change types of parameters
+    private String mParam1;
+    private String mParam2;
     // TODO: Rename and change types of parameters
     private TextView storyNametextiew;
     private TextView storyDeascriptionTextView;
     private String storyName;
     private String storyDeascription;
     VideoClass videoClass = new VideoClass();
-
+    StoriesClass storiesClass = new StoriesClass();
+    private ImageView imageview;
+private ImageView storyPicture;
     private AddStoryMethod mListener;
+    private AddVideoMethod mListener1;
 
     public AddNewVideoFragment() {
-        // Required empty public constructor
+        // Required intempty public constructor
     }
 
     /**
@@ -51,8 +60,8 @@ public class AddNewVideoFragment extends Fragment {
     public static AddNewVideoFragment newInstance(String param1, String param2) {
         AddNewVideoFragment fragment = new AddNewVideoFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+      /*  args.putString(ARG_PARAM1, param1);
+        args.putString(ARG_PARAM2, param2);*/
         fragment.setArguments(args);
         return fragment;
     }
@@ -96,19 +105,43 @@ public class AddNewVideoFragment extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        if (getArguments() != null) {
+            mParam1 = getArguments().getString(ARG_ACTISELECTED);
+        }
 
-        Button x = (Button) getView().findViewById(R.id.addNewStorytoList);
+        Button addewStoryButton = (Button) getView().findViewById(R.id.addNewStorytoList);
+        imageview = (ImageView)getView().findViewById(R.id.imageView3);
+        imageview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent,"Select an Image"),PICK_IMAGE_REQUEST);
+            }
+        });
 
-        if(x!=null) {
-            x.setOnClickListener(new View.OnClickListener() {
+        if(addewStoryButton!=null) {
+            addewStoryButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Log.d("demo","clicked");
-                    storyNametextiew = (TextView)getView().findViewById(R.id.addNewstoryTolisteditText);
-                    storyDeascriptionTextView = (TextView)getView().findViewById(R.id.addNewstoryDescriptionlisteditText);
-                    videoClass.setName(storyNametextiew.getText().toString());
-                    videoClass.setDescription(storyDeascriptionTextView.getText().toString());
-                    mListener.AddNewStoryMethod(videoClass);
+                    if( mParam1.equalsIgnoreCase("videos")) {
+                        storyNametextiew = (TextView) getView().findViewById(R.id.addNewstoryTolisteditText);
+                        storyDeascriptionTextView = (TextView) getView().findViewById(R.id.addNewstoryDescriptionlisteditText);
+                        videoClass.setName(storyNametextiew.getText().toString());
+                        videoClass.setDescription(storyDeascriptionTextView.getText().toString());
+                        mListener1.AddNewVideoMethod(videoClass);
+                    }else
+                    {
+                        storyNametextiew = (TextView) getView().findViewById(R.id.addNewstoryTolisteditText);
+                        storyDeascriptionTextView = (TextView) getView().findViewById(R.id.addNewstoryDescriptionlisteditText);
+                        storyPicture=(ImageView) getView().findViewById(R.id.imageView3);
+                        storiesClass.setName(storyNametextiew.getText().toString());
+                        storiesClass.setDescription(storyDeascriptionTextView.getText().toString());
+                        storiesClass.setBitmap(storyPicture.getDrawable());
+                        mListener.AddNewStoryMethod(storiesClass);
+                    }
 
                 }
             });
@@ -134,7 +167,13 @@ public class AddNewVideoFragment extends Fragment {
             mListener = (AddStoryMethod) context;
         } else {
             throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+                    + " must implement OnNextButtonClicked");
+        }
+        if (context instanceof AddVideoMethod) {
+            mListener1 = (AddVideoMethod) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnNextButtonClicked");
         }
     }
 
@@ -142,6 +181,7 @@ public class AddNewVideoFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+        mListener1=null;
     }
 
     /**
@@ -156,6 +196,10 @@ public class AddNewVideoFragment extends Fragment {
      */
     public interface AddStoryMethod {
         // TODO: Update argument type and name
-        void AddNewStoryMethod(VideoClass videoClass);
+        void AddNewStoryMethod(StoriesClass storiesClass);
+    }
+    public interface AddVideoMethod {
+        // TODO: Update argument type and name
+        void AddNewVideoMethod(VideoClass videoClass);
     }
 }
